@@ -19,7 +19,7 @@ class Manager
         $this->setSettings($params);
     }
 
-    public function isAvailable($id, string $begin, string $end, $dateFormat = '')
+    public function isAvailable($id, string $begin, string $end, $dateFormat = '', $ignoreReservations = [])
     {
         $out = false;
         $id = (int) $id;
@@ -40,7 +40,15 @@ class Manager
                 $templates)) {
             $begin = date('Y-m-d', strtotime($begin));
             $end = date('Y-m-d', strtotime($end));
-            $q = $this->modx->db->query("SELECT COUNT(*) FROM {$this->modx->getFullTableName('reservations')} WHERE `docid` = {$id} AND (('{$begin}' >= `begin` AND '{$begin}' < `end`) OR ('{$end}' > `begin` AND '{$end}' <= `end`) OR (`begin` >= '{$begin}' AND `end` <= '{$end}'))");
+            $where = "`docid` = {$id} AND (('{$begin}' >= `begin` AND '{$begin}' < `end`) OR ('{$end}' > `begin` AND '{$end}' <= `end`) OR (`begin` >= '{$begin}' AND `end` <= '{$end}'))";
+            if(!empty($ignoreReservations)) {
+                $ids = \APIhelpers::cleanIDs($ignoreReservations);
+                if($ids) {
+                    $ids = implode(',', $ids);
+                    $where .= " AND `id` NOT IN({$ids})";
+                }
+            }
+            $q = $this->modx->db->query("SELECT COUNT(*) FROM {$this->modx->getFullTableName('reservations')} WHERE {$where}");
             $out = (int) $this->modx->db->getValue($q) == 0;
             $this->modx->invokeEvent('OnBookingItemCheck', [
                 'itemObj'   => $doc,

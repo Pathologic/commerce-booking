@@ -158,7 +158,7 @@ class Controller
                 $model->set('end', date('Y-m-d', $timeEnd));
 
                 if(!$id || ($id && ($model->isChanged('docid') || $model->isChanged('begin') || $model->isChanged('end')))) {
-                    if (!ci()->booking->isAvailable($data['docid'], $data['begin'], $data['end'], 'Y-m-d')) {
+                    if (!ci()->booking->isAvailable($data['docid'], $data['begin'], $data['end'], 'Y-m-d', [$id])) {
                         $FormLister->setValid(false);
                         $FormLister->addMessage('[%form.notavailable%]');
 
