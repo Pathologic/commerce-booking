@@ -79,9 +79,10 @@ const Module = {
                         });
                 },
                 clickDay: function(e) {
-                    if(e.events.length === 1) {
+                    let docid = document.getElementById('calendarItem').value;
+                    if(docid !== '' && e.events.length === 1) {
                         Module.edit(e.events[0].id);
-                    } else {
+                    } else if (e.events.length > 1) {
                         let ids = [];
                         for(let i = 0; i<e.events.length; i++) {
                             ids.push(e.events[i].id);
