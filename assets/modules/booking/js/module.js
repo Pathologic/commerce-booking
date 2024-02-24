@@ -299,7 +299,7 @@ const Module = {
             }
         })
     },
-    delete: function (id) {
+    delete: function (id, callback) {
         let ids = [];
         let grid;
         if(currentView === 'calendar') {
@@ -336,10 +336,15 @@ const Module = {
                         },
                         function (result) {
                             if (result.status) {
-                                if(currentView === 'calendar') {
-                                    Module.updateCalendar();
+                                if (typeof callback === 'function') {
+                                    callback();
                                 }
-                                grid.datagrid('reload');
+                               if (currentView === 'calendar') {
+                                  Module.updateCalendar();
+                               }
+                               if(typeof grid !== 'undefined') {
+                                   grid.datagrid('reload');
+                               }
                             } else {
                                 $.messager.alert(_('error'), _('error.delete.message'), 'error')
                             }
@@ -498,8 +503,9 @@ const Module = {
                                 text: _('button.delete'),
                                 iconCls: 'btn-red fa fa-trash fa-lg',
                                 handler: function () {
-                                    Module.delete(id);
-                                    $('#editWnd').dialog('close', true);
+                                    Module.delete(id, function(){
+                                        $('#editWnd').dialog('close', true);
+                                    });
                                 }
                             },
                             {
