@@ -39,9 +39,8 @@ class Plugin
         if ($cart) {
             $items = $cart->getItems();
             foreach ($items as &$item) {
-                if (isset($item['meta']['begin']) && isset($item['meta']['end'])) {
+                if (isset($item['meta']['type']) && $item['meta']['type'] === 'booking') {
                     $item['count'] = 1;
-                    $item['meta']['type'] = 'booking';
                 }
             }
             $cart->setItems($items);
@@ -50,6 +49,9 @@ class Plugin
 
     public function OnBeforeCartItemAdding()
     {
+        $model = ci()->booking->getSetting('model', '\modResource');
+        $doc = new $model($this->modx);
+        $doc->edit($this->params['item']['id']);
         if (isset($this->params['item']['meta']['begin']) && isset($this->params['item']['meta']['end'])) {
             $begin = $this->params['item']['meta']['begin'];
             $end = $this->params['item']['meta']['end'];
@@ -62,9 +64,6 @@ class Plugin
                     return strtotime($a) - strtotime($b);
                 });
                 [$this->params['item']['meta']['begin'], $this->params['item']['meta']['end']] = $dates;
-                $model = ci()->booking->getSetting('model', '\modResource');
-                $doc = new $model($this->modx);
-                $doc->edit($this->params['item']['id']);
                 $price = (float) $doc->get(ci()->booking->getSetting('priceTv', 'price'));
                 $dateFormat = ci()->booking->getSetting('dateFormat', 'd.m.Y');
                 $date1 = \DateTime::createFromFormat($dateFormat, $this->params['item']['meta']['begin']);
@@ -78,6 +77,14 @@ class Plugin
                     'days'    => $interval->days
                 ]);
                 $this->params['item']['price'] = $price;
+                $this->params['item']['meta']['type'] = 'booking';
+            }
+        } else {
+            $templates = ci()->booking->getSetting('itemTemplates');
+            $templates = \APIhelpers::cleanIDs($templates);
+            if ($doc->getID() && $doc->get('published') && !$doc->get('deleted') && in_array($doc->get('template'),
+                    $templates)) {
+                $this->params['prevent'] = true;
             }
         }
     }
