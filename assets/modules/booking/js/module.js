@@ -79,8 +79,7 @@ const Module = {
                         });
                 },
                 clickDay: function(e) {
-                    let docid = document.getElementById('calendarItem').value;
-                    if(docid !== '' && e.events.length === 1) {
+                    if(e.events.length === 1) {
                         Module.edit(e.events[0].id);
                     } else if (e.events.length > 1) {
                         let ids = [];
@@ -494,7 +493,16 @@ const Module = {
                                         $.messager.alert(_('error'), _('error.message'), 'error');
                                     });
                                 }
-                            }, {
+                            },
+                            {
+                                text: _('button.delete'),
+                                iconCls: 'btn-red fa fa-trash fa-lg',
+                                handler: function () {
+                                    Module.delete(id);
+                                    $('#editWnd').dialog('close', true);
+                                }
+                            },
+                            {
                                 text: _('button.cancel'),
                                 iconCls: 'btn-red fa fa-ban fa-lg',
                                 handler: function () {
