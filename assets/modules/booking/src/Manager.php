@@ -26,6 +26,7 @@ class Manager
         if (!$this->checkDate($begin, $dateFormat) || !$this->checkDate($end, $dateFormat)) {
             return false;
         }
+        if($begin == $end) return false;
         $dates = [$begin, $end];
         usort($dates, function ($a, $b) {
             return strtotime($a) - strtotime($b);

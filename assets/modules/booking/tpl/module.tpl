@@ -163,7 +163,7 @@
                     <input type="text" class="form-control" id="begin" name="begin" readonly value="{%begin%}">
                 </div>
                 <div class="form-group col-md-6" style="padding-left: 5px;" data-field="end">
-                    <label for="end">[%grid.field.begin%]</label>
+                    <label for="end">[%grid.field.end%]</label>
                     <input type="text" class="form-control" id="end" name="end" readonly value="{%end%}">
                 </div>
             </div>
