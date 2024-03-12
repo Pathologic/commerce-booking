@@ -6,14 +6,15 @@ class Model extends \autoTable
 {
     protected $table = 'reservations';
     public $default_field = [
-        'docid'     => 0,
-        'begin'     => '',
-        'end'       => '',
-        'orderid'   => 0,
-        'description' => '',
-        'hash' => '',
-        'createdon' => '',
-        'updatedon' => '',
+        'docid'          => 0,
+        'begin'          => '',
+        'end'            => '',
+        'orderid'        => 0,
+        'orderproductid' => 0,
+        'description'    => '',
+        'hash'           => '',
+        'createdon'      => '',
+        'updatedon'      => '',
     ];
 
     public function set($key, $value)
@@ -46,6 +47,7 @@ class Model extends \autoTable
             `id` INT(11) AUTO_INCREMENT,
             `docid` INT(11) NOT NULL,
             `orderid` INT(11),
+            `orderproductid` INT(11),
             `begin` DATE,
             `end` DATE,
             `description` TEXT,
@@ -56,7 +58,11 @@ class Model extends \autoTable
             KEY `reservation` (`docid`, `begin`, `end`),
             KEY `period` (`begin`, `end`),
             KEY `hash` (`id`, `hash`),
-            KEY `orderid` (`orderid`)
+            KEY `orderid` (`orderid`),
+            CONSTRAINT `booking_order_products_ibfk_1`
+            FOREIGN KEY (`orderproductid`)
+            REFERENCES {$this->makeTable('commerce_order_products')} (`id`)
+            ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB
         ");
         $this->query("
