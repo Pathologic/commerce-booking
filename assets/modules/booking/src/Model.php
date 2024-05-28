@@ -47,7 +47,7 @@ class Model extends \autoTable
             `id` INT(11) AUTO_INCREMENT,
             `docid` INT(11) NOT NULL,
             `orderid` INT(11),
-            `orderproductid` INT(10) UNSIGNED DEFAULT NULL,
+            `orderproductid` INT(10) UNSIGNED NOT NULL,
             `begin` DATE,
             `end` DATE,
             `description` TEXT,
