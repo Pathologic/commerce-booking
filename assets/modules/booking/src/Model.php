@@ -58,11 +58,7 @@ class Model extends \autoTable
             KEY `reservation` (`docid`, `begin`, `end`),
             KEY `period` (`begin`, `end`),
             KEY `hash` (`id`, `hash`),
-            KEY `orderid` (`orderid`),
-            CONSTRAINT `booking_order_products_ibfk_1`
-            FOREIGN KEY (`orderproductid`)
-            REFERENCES {$this->makeTable('commerce_order_products')} (`id`)
-            ON DELETE CASCADE ON UPDATE CASCADE
+            KEY `orderid` (`orderid`)
             ) ENGINE=InnoDB
         ");
         $this->query("
