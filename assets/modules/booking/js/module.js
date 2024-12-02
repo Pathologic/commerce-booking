@@ -126,7 +126,7 @@ const Module = {
                 columns: [[
                     {field: 'select', checkbox: true},
                     {
-                        field: 'docid', title: _('grid.field.item'), width: 140, sortable: true, sanitize,
+                        field: 'docid', title: _('grid.field.item'), width: 140, sortable: true,
                         formatter: function (value, row) {
                             return row.item_title + '<br><small>' + sanitize(row.description) + '</small>';
                         }
@@ -229,7 +229,7 @@ const Module = {
                     height:400,
                     columns: [[
                         {
-                            field: 'docid', title: _('grid.field.item'), width: 140, sortable: true, sanitize,
+                            field: 'docid', title: _('grid.field.item'), width: 140, sortable: true,
                             formatter: function (value, row) {
                                 return row.item_title + '<br><small>' + sanitize(row.description) + '</small>';
                             }
