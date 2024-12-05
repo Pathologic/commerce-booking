@@ -101,7 +101,7 @@
 </h1>
 <div id="actions">
     <ul class="btn-group">
-        <li><a class="btn btn-secondary" href="#" onclick="document.location.href='index.php?a=106';">[%button.exit%]</a>
+        <li><a class="btn btn-secondary" href="#" onclick="document.location.href='index.php?a=2';">[%button.exit%]</a>
         </li>
     </ul>
 </div>
