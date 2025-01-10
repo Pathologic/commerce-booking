@@ -116,6 +116,7 @@ const Module = {
             $('#grid').datagrid({
                 url: connector,
                 title: _('module.title'),
+                scrollbarSize: 0,
                 fitColumns: true,
                 pagination: true,
                 idField: 'id',
