@@ -62,7 +62,10 @@ const Module = {
                     formData.append('id', document.getElementById('calendarItem').value);
                     return fetch(connector, {
                         method: 'POST',
-                        body: formData
+                        body: formData,
+                        headers: new Headers({
+                			'X-Requested-With': 'XMLHttpRequest',
+                		}),
                     })
                         .then(result => result.json())
                         .then(result => {
