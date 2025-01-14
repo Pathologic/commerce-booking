@@ -71,7 +71,7 @@ class Manager
         }
         $begin = date('Y-m-d', strtotime($begin));
         $end = date('Y-m-d', strtotime($end));
-        $q = $this->modx->db->query("SELECT `begin`, `end` FROM {$this->modx->getFullTableName('reservations')} WHERE `docid` = {$id} AND ((`begin` >= '{$begin}' AND `begin` <= '{$end}') OR (`end` >= '{$begin}' AND `end` <= '{$end}'))");
+        $q = $this->modx->db->query("SELECT `begin`, `end` FROM {$this->modx->getFullTableName('reservations')} WHERE `docid` = {$id} AND `begin` <= '{$end}' AND `end` >= '{$begin}'");
         while ($row = $this->modx->db->getRow($q)) {
             $out[] = [$row['begin'], $row['end']];
         }
